@@ -107,3 +107,26 @@ if cur > (1 + 10%) * cost
 
 定时任务程序dingshi（每天定时调用） ---> 调用shell脚本（shell脚本去调上证50净值估算，中证500净值估算，上证50PE， 中证500PE）
 ---> 在dingshi程序内部执行计算逻辑 --> 调用javaMailSender进行邮件告知
+
+Derby数据表设计：stockDB数据库
+两个表：
+（1）PE表
+CREATE TABLE pe_total (
+   Id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+   Name VARCHAR(255),  //指数名称
+   Value INT NOT NULL,  //指数PE值
+   time VARCHAR(255),    //时间（暂定yyyy-MM-dd，还没处理）
+   PRIMARY KEY (Id)
+);
+
+(2)EX表
+CREATE TABLE ex_total (
+   Id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+   Name VARCHAR(255),  //指数名称
+   Value INT NOT NULL,  //指数净值估算
+   time VARCHAR(255),    //时间（暂定yyyy-MM-dd，还没处理），
+   cost INT NOT NULL, //买入成本（只有第一次买入次才会赋值）
+   standard1 INT NOT NULL, //变量值（低位参考值，第二天会更新） 
+   standard2 INT NOT NULL, //变量值（高位参考值， 脱离成本区间15%会更新，否则为0）
+   PRIMARY KEY (Id)
+);
