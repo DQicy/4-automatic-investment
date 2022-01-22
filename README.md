@@ -101,4 +101,9 @@ if cur > (1 + 10%) * cost
 
 
 
-设计技术：Java,WebLogic, memcache, cron定时任务，HTTP，多线程
+设计技术：Java,WebLogic, 定时任务，HTTP，多线程， 磁盘IO， Shell脚本
+
+整体流程：
+
+定时任务程序dingshi（每天定时调用） ---> 调用shell脚本（shell脚本去调上证50净值估算，中证500净值估算，上证50PE， 中证500PE）
+---> 在dingshi程序内部执行计算逻辑 --> 调用javaMailSender进行邮件告知
